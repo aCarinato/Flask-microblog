@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title>{{ title }} - Microblog</title>
+    {% else %}
+    <title>Welcome</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>
+      Microblog:
+      <!-- url_for() generates URLs using Flask internal mapping of URLs to view functions
+      This is better than using URLs names because the latter are much more likely to change than view function names, which are completely internal -->
+      <!-- <a href="/index">Home</a>
+      <a href="/login">Login</a> -->
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('login') }}">Login</a>
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </body>
+</html>
