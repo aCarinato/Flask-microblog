@@ -2,12 +2,13 @@
 # handlers for the application routes are written as python functions, called view functions
 from app import app
 from flask import render_template, flash, redirect, url_for
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import request
 from werkzeug.urls import url_parse
 from app.models import User
 from app import db
+from datetime import datetime
 
 # The way Flask-Login protects a view function against anonymous users is with a decorator called @login_required
 # When this is added to a view function below the @app.route the function becomes protected and will not allow access to non-authenticated users
@@ -84,3 +85,40 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', title='Register', form=form)
+
+# To create a user profile page a view function that maps to the /user/<username>URL is needed
+@app.route('/user/<username>')  # this decorator has a dynamic component in it i.e. <username>
+@login_required                 # this makes this view function only accessible to logged in users
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()   # load the user from the database
+    posts = [
+        {'author': user, 'body':'Test post #1'},
+        {'author': user, 'body':'Test post #2'}
+    ]
+    return render_template('user.html', user=user, posts=posts)
+
+# check if the current_user is logged in  and in that case sets the last_seen field to the current time
+@app.before_request         # registers the decorated function to be executed right before the view function
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+
+    if form.validate_on_submit():
+        # copy the data from the form into the user object and then write the object to the database
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Your changes have been saved')
+        return redirect(url_for('edit_profile'))
+
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+
+    return render_template('edit_profile.html', title='Edit Profile', form=form)
