@@ -43,4 +43,14 @@ class EditProfileForm(FlaskForm):
             if user is not None:
                 raise ValidationError('Please use a different username')
 
-                
+# The action to follow or unfollow has to e triggered from a web form when the only thing the user needs to do is click on 'Follow' or 'Unfollow' without submitting any data.
+# In order for the the action 'follow' or 'unfollow' to be triggered from a web form this is not going to have any data field.
+# The only elements in the form are going to be the CSRF token, which is implemented as a hidden field and added automatically by Flask-WTF and a submit button,
+# whch is what the user needs to click to trigger the action.
+# Since the two actions are almost identical the same will be used for both.
+class EmptyForm(FlaskForm):
+    submit = SubmitField('Submit')
+
+
+# class PostForm(FlaskForm):
+#     post = TextAreaField('Say')

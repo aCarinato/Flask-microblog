@@ -5,6 +5,14 @@ from flask_login import UserMixin       # generic implementations of login that 
 from app import login
 from hashlib import md5
 
+# the following table is not declared as a model, like users and posts tables.
+# this is an auxiliary table that has no other data than the foreign keys
+# It is used to create the many-to-many relationship in the user table
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
 class User(UserMixin, db.Model):
     # fields are created as instances of the db.Column class
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +38,36 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
 
+    # The setup of many-to-many relationship is not trivial: db.relationship function is used to define it in the model class.
+    # This relation links User instances to other User instances
+    followed = db.relationship(
+        'User',                                             # right-side entity of the relationship (the left side is the parent class)
+        secondary=followers,                                # configures the association table
+        primaryjoin = (followers.c.follower_id == id),      # indicates the condiion tht links the left side entity with the association table
+        secondaryjoin = (followers.c.followed_id == id),    # indicates the condiion tht links the right side entity with the association table
+        backref = db.backref('followers', lazy='dynamic'),  # how the relationship will be accessed from the right side entity
+        lazy='dynamic')                                     # similar to above but applied to the left side query
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        # issues a query on the followed relationship to check if a link between two users already exists
+        # Looks for items in the association table that have the left side foreign key set to the self user and the right to the user argument
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0 # the number can either be 0 or 1
+
+    def followed_posts(self):
+        followed = Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)).filter(
+                followers.c.follower_id == self.id)                 # posts of the followed users
+        own = Post.query.filter_by(user_id=self.id)                 # own post, as if one is a follower of himself
+        return followed.union(own).order_by(Post.timestamp.desc())  # merging the two above so the own posts are also displayed
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
@@ -45,8 +83,3 @@ class Post(db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
-# followers = db.Table('followers',
-#     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-#     db.Column('follower_id', db.Integer, db.ForeignKey('user_id'))
-# )
