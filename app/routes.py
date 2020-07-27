@@ -2,34 +2,36 @@
 # handlers for the application routes are written as python functions, called view functions
 from app import app
 from flask import render_template, flash, redirect, url_for
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import request
 from werkzeug.urls import url_parse
-from app.models import User
+from app.models import User, Post
 from app import db
 from datetime import datetime
 
 
 # The way Flask-Login protects a view function against anonymous users is with a decorator called @login_required
 # When this is added to a view function below the @app.route the function becomes protected and will not allow access to non-authenticated users
-@app.route('/')         # creates an assocition between the URL given as an argument and the funciton
-@app.route('/index')    # when the browser requests either '/' or '/index' flask is going to invoke index()
+@app.route('/', methods=['GET', 'POST'])         # creates an assocition between the URL given as an argument and the funciton
+@app.route('/index', methods=['GET', 'POST'])    # when the browser requests either '/' or '/index' flask is going to invoke index()
 @login_required
 def index():
-    user = {'username':'Ale'}
-    posts = [
-    {
-        'author': {'username':'Jo'},
-        'body': 'nice day here'
-    },
-    {
-        'author': {'username':'susy'},
-        'body': 'cool'
-    }
-    ]
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('index'))
+    #user = {'username':'Ale'}
+    page = request.args.get('page', 1, type=int) # to access arguments given in the query string
+    posts = current_user.followed_posts().paginate(page, app.config['POSTS_PER_PAGE'], False)
+    # the return value from a paginate() call is an object of a Pagination class from Flask-SQLAlchemy
+    next_url = url_for('index', page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('index', page=posts.prev_num) if posts.has_prev else None
 
-    return render_template('index.html', title='Home Page', posts=posts)
+    return render_template('index.html', title='Home', form=form, posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 @app.route('/login', methods=['GET', 'POST'])
 # GET requests are those that return information to the client (web browser in this case)
@@ -92,12 +94,17 @@ def register():
 @login_required                 # this makes this view function only accessible to logged in users
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()   # load the user from the database
-    posts = [
-        {'author': user, 'body':'Test post #1'},
-        {'author': user, 'body':'Test post #2'}
-    ]
+    page = request.args.get('page', 1, type=int)
+
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('user', username=user.username, page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('user', username=user.username, page=posts.prev_num) if posts.has_prev else None
+    # posts = [
+    #     {'author': user, 'body':'Test post #1'},
+    #     {'author': user, 'body':'Test post #2'}
+    # ]
     form = EmptyForm()  # To render the follow or unfollow button an EmptyForm object has to be instantiated and passed it to the user.html
-    return render_template('user.html', user=user, posts=posts, form=form)
+    return render_template('user.html', user=user, posts=posts.items, next_url=next_url, prev_url=prev_url, form=form)
 
 # check if the current_user is logged in  and in that case sets the last_seen field to the current time
 @app.before_request         # registers the decorated function to be executed right before the view function
@@ -162,3 +169,19 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+
+@app.route('/explore')
+@login_required
+def explore():
+    '''
+    Explore page where the blog posts of different users are displayed
+    '''
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(page, app.config['POSTS_PER_PAGE'], False)
+    # the template for index.html has been resused, this page is very smilar to it
+    # A difference with the main page is that in the explore page is that there is no need for a form to write blog posts so the form argument i omitted
+
+    next_url = url_for('explore', page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('explore', page=posts.prev_num) if posts.has_prev else None
+
+    return render_template('index.html', title='Explore', posts=posts.items, next_url=next_url, prev_url=prev_url)
