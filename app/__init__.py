@@ -7,6 +7,7 @@ import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 from flask_mail import Mail
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,6 +15,7 @@ db = SQLAlchemy(app)                        # database instance
 migrate = Migrate(app, db)
 login = LoginManager(app)
 mail = Mail(app)
+bootstrap = Bootstrap(app)
 # Flask-Login needs to know what is the view function that handles logins
 login.login_view = 'login' # 'login' is the function (or endpoint) name for the login view i.e. the nam one would use in a url_for() call
 
