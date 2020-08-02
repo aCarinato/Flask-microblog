@@ -4,6 +4,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin       # generic implementations of login that are appropriate for most user model classes
 from app import login
 from hashlib import md5
+from time import time
+import jwt
+from app import app
 
 # the following table is not declared as a model, like users and posts tables.
 # this is an auxiliary table that has no other data than the foreign keys
@@ -67,6 +70,31 @@ class User(UserMixin, db.Model):
                 followers.c.follower_id == self.id)                 # posts of the followed users
         own = Post.query.filter_by(user_id=self.id)                 # own post, as if one is a follower of himself
         return followed.union(own).order_by(Post.timestamp.desc())  # merging the two above so the own posts are also displayed
+
+    def get_reset_password_token(self, expires_in=600):
+        """
+        Function to regenerate password from reset token.
+        If a tken has a valid signature but it is past its expiration timestamp, it will considered invalid (10 minutes).
+        When the user clicks on the emailed link, the token is going to be sent back to the application as part of the URL and the firt thing the view function That
+        handles this URL will do is to verify it.
+        I f the signature is valid, then the user can be verified by the ID stored in the payload.
+
+        OUTPUT:
+            - generates JWT token as a string
+        """
+        return jwt.encode(
+        {'reset_password': self.id, 'exp': time() + expires_in},
+        app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    # a static method can be invoked directly from the class.
+    # It is similar to a class method with the difference that it does not receive the class as a first argument.
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
+        except:         # the token cannot be avlidated or is expired
+            return
+        return User.query.get(id) # the value of the reset_password key from the token's paylod is the ID of the user, so the user can be loaded and return
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
