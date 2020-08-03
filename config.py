@@ -18,3 +18,4 @@ class Config(object):
     ADMINS = ['alessandro.carinato@gmail.com']
 
     POSTS_PER_PAGE = 3
+    LANGUAGES = ['en', 'es']    # languages for translation
