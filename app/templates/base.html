@@ -53,4 +53,27 @@
     {{ super() }}
     {{ moment.include_moment() }}
     {{ moment.lang(g.locale) }}
+    <!-- function to do the translation work.
+    This will take the input and output DOM nodes, and the source and destination languages, issue the asynchronous request
+    to the server with the three arguments needed, and finally replace the Translate link with the translated text once the server responds -->
+    <script>
+      function translate(sourceElem, destElem, sourceLang, destLang) {
+        // start with a spinner replacing the Translate link to signal that the translation is in progresss
+        // Note: the spinner needs to be saved in pp/static/loading.gif directory
+        $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+        // $.post() submits data to the server in a format that is similar to how the browser submits a web form,
+        // which is convenient because that allows Flask to incorporate this data into the request.form dictionary
+        // The promise syntax allows to chain the callbacks to the return value of the $.post() call 
+        $.post('/translate', {
+          text: $(sourceElem).text(),
+          source_language: sourceLang,
+          dest_language: destLang
+        }).done(function(response) {
+          $(destElem).text(response['text'])
+        }).fail(function() {
+          $(destElem).text("{{ _('Error: could not contact server') }}");
+        });
+      }
+
+    </script>
 {% endblock %}

@@ -14,7 +14,18 @@
             {{ _('%(username)s said %(when)s',
                 username=user_link, when=moment(post.timestamp).fromNow()) }}
             <br>
-            {{ post.body }}
+            <!-- this span is used to identify blog post for the translation service.
+              The id number matches the database identifier of each post-->
+            <span id="post{{ post.id }}">{{ post.body }}</span>
+            <span id="translation{{ post.id }}">
+              <a href="javascript:translate(
+                  '#post{{ post.id }}',
+                  '#translation{{ post.id }}',
+                  '{{ post.language }}',
+                  '{{ g.locale }}');">{{ _('Translate') }}</a>
+            </span>
+            <!-- for a given post ID there is a post<ID> node for the blog post and a corresponding translation<ID> node where
+            I will need to replace the Translate link with the translated text once available -->
         </td>
     </tr>
 </table>

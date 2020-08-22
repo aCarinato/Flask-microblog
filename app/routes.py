@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, flash, redirect, url_for, request, g, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from flask_babel import _, get_locale
@@ -8,6 +8,7 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
     EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User, Post
 from app.email import send_password_reset_email
+from app.translate import translate
 
 
 @app.before_request
@@ -15,7 +16,8 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
-    g.locale = str(get_locale())
+    g.locale = str(get_locale()) # returns a locale object from which the language code can be obtained by converting the object to a string
+    # g.locale can be accessed from the base template to configure momet.js with the correct language
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -198,3 +200,12 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    # jsonify() function converts the dictionary to a JSON formatted payload.
+    # the return value from jsonify() is the HTTP response that is going to be sent back to the client
+    return jsonify({'text': translate(request.form['text'],
+                                        request.form['source_language'],
+                                        request.form['dest_language'])})

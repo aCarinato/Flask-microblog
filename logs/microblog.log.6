@@ -1,51 +1,4 @@
-2020-07-20 10:15:38,417 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-20 12:05:29,098 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-20 12:06:51,054 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-20 15:47:45,789 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-20 15:48:37,374 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-20 15:49:32,585 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-20 15:50:35,853 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-25 15:48:09,204 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-25 16:42:32,963 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-25 16:42:48,267 ERROR: Exception on /index [GET] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
-Traceback (most recent call last):
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 2447, in wsgi_app
-    response = self.full_dispatch_request()
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\_compat.py", line 39, in reraise
-    raise value
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1936, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
-    return func(*args, **kwargs)
-  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\routes.py", line 39, in index
-    return render_template('index.html', title='Home Page', posts=posts)
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\templating.py", line 137, in render_template
-    return _render(
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\templating.py", line 120, in _render
-    rv = template.render(context)
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\jinja2\environment.py", line 1090, in render
-    self.environment.handle_exception()
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\jinja2\environment.py", line 832, in handle_exception
-    reraise(*rewrite_traceback_stack(source=source))
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\jinja2\_compat.py", line 28, in reraise
-    raise value.with_traceback(tb)
-  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\templates\index.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\templates\base.html", line 36, in top-level template code
-    {% block content %}{% endblock %}
-  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\templates\index.html", line 6, in block "content"
-    {{ form.hidden_tag() }}
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\jinja2\environment.py", line 471, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'form' is undefined
-2020-07-25 16:49:45,211 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-25 16:50:00,309 ERROR: Exception on /index [POST] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
+2020-07-25 17:39:03,874 ERROR: Exception on /index [POST] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
 Traceback (most recent call last):
   File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -66,8 +19,7 @@ Traceback (most recent call last):
   File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\sqlalchemy\orm\scoping.py", line 163, in do
     return getattr(self.registry(), name)(*args, **kwargs)
 TypeError: add() missing 1 required positional argument: 'instance'
-2020-07-25 17:35:17,440 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
-2020-07-25 17:35:28,057 ERROR: Exception on /index [POST] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
+2020-07-25 17:39:15,735 ERROR: Exception on /index [POST] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
 Traceback (most recent call last):
   File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -88,7 +40,11 @@ Traceback (most recent call last):
   File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\sqlalchemy\orm\scoping.py", line 163, in do
     return getattr(self.registry(), name)(*args, **kwargs)
 TypeError: add() missing 1 required positional argument: 'instance'
-2020-07-25 17:36:10,576 ERROR: Exception on /index [POST] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
+2020-07-26 11:24:44,671 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+2020-07-26 11:30:09,646 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+2020-07-26 11:49:34,174 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+2020-07-26 12:51:29,057 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+2020-07-26 12:51:52,291 ERROR: Exception on /explore [GET] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
 Traceback (most recent call last):
   File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 2447, in wsgi_app
     response = self.full_dispatch_request()
@@ -104,9 +60,69 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
     return func(*args, **kwargs)
-  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\routes.py", line 23, in index
-    db.session.add()
-  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\sqlalchemy\orm\scoping.py", line 163, in do
-    return getattr(self.registry(), name)(*args, **kwargs)
-TypeError: add() missing 1 required positional argument: 'instance'
-2020-07-25 17:38:54,051 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\routes.py", line 171, in explore
+    page = requests.args.get('page', 1, type=int)
+NameError: name 'requests' is not defined
+2020-07-26 12:51:56,797 ERROR: Exception on /explore [GET] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
+Traceback (most recent call last):
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\routes.py", line 171, in explore
+    page = requests.args.get('page', 1, type=int)
+NameError: name 'requests' is not defined
+2020-07-26 12:52:01,223 ERROR: Exception on /explore [GET] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
+Traceback (most recent call last):
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\routes.py", line 171, in explore
+    page = requests.args.get('page', 1, type=int)
+NameError: name 'requests' is not defined
+2020-07-26 12:52:13,430 ERROR: Exception on /explore [GET] [in C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py:1891]
+Traceback (most recent call last):
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\aless\Anaconda3\envs\flask_env\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\routes.py", line 171, in explore
+    page = requests.args.get('page', 1, type=int)
+NameError: name 'requests' is not defined
+2020-07-26 12:53:38,824 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+2020-07-26 21:26:29,154 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+2020-07-26 21:43:49,728 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:45]
+2020-07-27 10:30:08,438 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:47]
+2020-07-27 15:37:13,764 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:47]
+2020-07-27 15:39:48,562 INFO: Microblog startup [in C:\Users\aless\Desktop\AI\CORSI\web_flask\microblog\app\__init__.py:47]

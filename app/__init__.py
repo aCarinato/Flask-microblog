@@ -59,8 +59,8 @@ def get_locale():
     An attribute of Flask's request object called accept_languages provides a high-level interface to work with the Accept-Language header that
     clients send with a request.
     '''
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    #return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return 'es'
 
-
-# the import at bottom is a workaround to circular imports
+# the import at bottom is a workaround to circular imports i.e. routes module needs to import the app variable here defined
 from app import routes, models, errors      	   # 'models' define the structure of the database

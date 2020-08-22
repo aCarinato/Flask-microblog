@@ -19,3 +19,5 @@ class Config(object):
 
     POSTS_PER_PAGE = 3
     LANGUAGES = ['en', 'es']    # languages for translation
+
+    MS_TRANSLATOR_KEY = 'e32d1bf3f3c9463c94c7d8af5655b5e9' # os.environ.get('MS_TRANSLATOR_KEY')
