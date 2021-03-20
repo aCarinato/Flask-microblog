@@ -15,7 +15,7 @@ Flask-SQLAlchemy @ file:///home/conda/feedstock_root/build_artifacts/flask-sqlal
 Flask-WTF==0.14.3
 idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1593328102638/work
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 Mako==1.1.0
 MarkupSafe==1.1.1
 pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
