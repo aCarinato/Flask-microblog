@@ -20,7 +20,7 @@ Mako==1.1.0
 MarkupSafe==1.1.1
 pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
 pycryptodome==3.9.7
-PyJWT==1.7.1
+PyJWT==2.4.0
 python-dateutil==2.8.1
 python-dotenv @ file:///home/conda/feedstock_root/build_artifacts/python-dotenv_1593788306353/work
 python-editor==1.0.4
